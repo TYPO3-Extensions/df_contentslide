@@ -1,0 +1,84 @@
+page.includeCSS.dfcontentslide = {$plugin.tx_df_contentslide.css}
+page.includeJS.dfcontentslide = {$plugin.tx_df_contentslide.js}
+
+#######################################################
+
+# link generation object for later usage
+temp.dfcontentslide_typolink {
+	parameter = #acc{field:uid}
+	parameter.insertData = 1
+
+	ATagParams = id="acc{field:uid}"
+	ATagParams.insertData = 1
+
+	useCacheHash = 1
+	additionalParams = &df_contentslide_noajax=1
+	additionalParams.if {
+		value.field = tx_df_contentslide_contentslide
+		isLessThan = 1
+	}
+}
+
+#######################################################
+
+# inject wrapping class for the toggle class of the contentslide
+lib.stdheader.stdWrap {
+	outerWrap.fieldRequired = tx_df_contentslide_contentslide
+	outerWrap.insertData = 1
+	outerWrap = <div class="dfcontentslide-toggle">|</div>
+}
+
+# inject the link for an contentslide element
+lib.stdheader.10.setCurrent.outerWrap.cObject = TEXT
+lib.stdheader.10.setCurrent.outerWrap.cObject {
+	value = |
+	fieldRequired = tx_df_contentslide_contentslide
+	typolink < temp.dfcontentslide_typolink
+}
+
+# add default toogle header if the header is empty or hidden
+tt_content.text.10 = COA
+tt_content.text.10 {
+	10 =< lib.stdheader
+
+	stdWrap.ifEmpty.cObject = TEXT
+	stdWrap.ifEmpty.cObject {
+		fieldRequired = tx_df_contentslide_contentslide
+		typolink < temp.dfcontentslide_typolink
+		value = {$plugin.tx_df_contentslide.emptyHeaderText}
+		wrap (
+			<div class="dfcontentslide-toggle">
+				<p>
+					|
+				</p>
+			</div>
+		)
+	}
+}
+
+# default header for textpic
+tt_content.textpic {
+	10.10 =< lib.stdheader
+	10.stdWrap < tt_content.text.10.stdWrap
+}
+
+# wrap of the content
+tt_content.text.20 {
+	outerWrap.fieldRequired = tx_df_contentslide_contentslide
+	outerWrap (
+		<div class="dfcontentslide-content">
+			<div class="dfcontentslide-contentSub">|</div>
+		</div>
+	)
+
+	if {
+		value.field = tx_df_contentslide_contentslide
+		isLessThan = 1
+		isFalse.data = GP:df_contentslide_noajax
+		negate = 1
+	}
+}
+
+# wrap for image/text elements
+tt_content.textpic.20.stdWrap.outerWrap < tt_content.text.20.outerWrap
+tt_content.textpic.20.text.20.outerWrap =

@@ -1,0 +1,5 @@
+plugin.tx_df_contentslide {
+	emptyHeaderText = Expand/Collapse
+	css = EXT:df_contentslide/resources/css/df_contentslide.css
+	js = EXT:df_contentslide/resources/javascript/df_contentslide.js
+}

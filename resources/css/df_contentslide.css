@@ -1,0 +1,41 @@
+.dfcontentslide-toggle h1,
+.dfcontentslide-toggle h2,
+.dfcontentslide-toggle h3,
+.dfcontentslide-toggle h4,
+.dfcontentslide-toggle p {
+	margin: 2px 0;
+	padding: 0 2px 0 17px;
+	font-size: 1em;
+	background: url(../images/icon.png) 3px top no-repeat;
+	cursor: pointer;
+}
+
+.dfcontentslide-toggle a,
+.dfcontentslide-toggle a:visited {
+	color: #666;
+}
+
+.dfcontentslide-active h1,
+.dfcontentslide-active h2,
+.dfcontentslide-active h3,
+.dfcontentslide-active h4,
+.dfcontentslide-active p {
+	background-position: 3px -45px;
+}
+
+.dfcontentslide-spinner,
+.dfcontentslide-contentSub {
+	margin: 0 0 0 15px;
+}
+
+.dfcontentslide-spinner {
+	height: 16px;
+	width: 16px;
+	background: url(../images/ajax-loader.gif) left top no-repeat;
+}
+
+@media print {
+	.dfcontentslide-contentSub {
+		margin: 10px 0;
+	}
+}
