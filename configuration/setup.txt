@@ -7,6 +7,7 @@ page.includeJS.dfcontentslide = {$plugin.tx_df_contentslide.js}
 temp.dfcontentslide_typolink {
 	parameter = #acc{field:uid}
 	parameter.insertData = 1
+	addQueryString = 1
 
 	ATagParams = id="acc{field:uid}"
 	ATagParams.insertData = 1
