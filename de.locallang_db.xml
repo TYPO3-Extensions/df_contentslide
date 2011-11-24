@@ -2,8 +2,8 @@
 <T3locallangExt>
 	<data type="array">
 		<languageKey index="de" type="array">
-			<label index="tt_content.tx_df_contentslide_contentslide">Inhalt ein- und ausklappbar</label>
 			<label index="tt_content.tx_df_contentslide_activate">Aktivieren</label>
+			<label index="tt_content.tx_df_contentslide_contentslide">Inhalt ein- und ausklappbar</label>
 			<label index="tt_content.tx_df_contentslide_withAjax">mit AJAX</label>
 		</languageKey>
 	</data>
