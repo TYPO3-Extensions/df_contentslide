@@ -213,7 +213,7 @@ var SlidingElements = new Class({
 	 * @return {void}
 	 */
 	addLocationHashPolling: function() {
-		this.hashHandler();
+		this.hashHandler.delay(1, this); // prevents a rare and minor bug with cropped content
 		this.hashHandler.periodical(1000, this);
 	},
 
