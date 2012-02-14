@@ -89,7 +89,7 @@ var SlidingElements = new Class({
 				this.elementMap[mapIndex].collapsible = null;
 			}
 
-			this.toggleAnchors(this.elementMap[mapIndex], false);
+			this.toggleAnchors(this.elementMap[mapIndex], false, false);
 			toggleElement.addEvent('click', this.toggleElement.bind(this, mapIndex));
 		}.bind(this));
 	},
