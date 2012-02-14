@@ -138,7 +138,7 @@ var SlidingElements = new Class({
 	 */
 	toggleElement: function(index, animate) {
 		var map = this.elementMap[index];
-		if (!map || (map.contentItem && map.toggleItem.retrieve('SlidingElementLock'))) {
+		if (!map || (map.contentItem && map.toggleItem.retrieve('SlidingElementLock', false))) {
 			return;
 		}
 
