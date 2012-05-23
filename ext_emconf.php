@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext "df_contentslide".
 #
-# Auto generated 14-02-2012 18:56
+# Auto generated 23-05-2012 12:25
 #
 # Manual updates:
 # Only the data in the array - everything else is removed by next
@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Collapsing and expanding of content elements (http://mootools.net/demos/?demo=Fx.Slide) with dynamic or static loading.',
 	'category' => 'fe',
 	'shy' => 0,
-	'version' => '3.0.2',
+	'version' => '3.0.3',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
