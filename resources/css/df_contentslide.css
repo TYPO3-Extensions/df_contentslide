@@ -1,3 +1,7 @@
+.hasJs .dfcontentslide-content {
+	display: none;
+}
+
 .dfcontentslide-toggle h1,
 .dfcontentslide-toggle h2,
 .dfcontentslide-toggle h3,
@@ -35,6 +39,10 @@
 }
 
 @media print {
+	.hasJs .dfcontentslide-content {
+		display: block;
+	}
+
 	.dfcontentslide-contentSub {
 		margin: 10px 0;
 	}

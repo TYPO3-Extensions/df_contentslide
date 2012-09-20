@@ -1,8 +1,6 @@
-document.write(
-	'<style type="text/css" media="screen">' + "\n" +
-		'.dfcontentslide-content {display: none}' + "\n" +
-	'</style>'
-);
+if (!document.documentElement.className.match(/(^| )hasJs/)) {
+	document.documentElement.className = 'hasJS ' + document.documentElement.className;
+}
 
 var SlidingElements = new Class({
 	Implements: [Options, Events],
