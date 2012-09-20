@@ -6,6 +6,7 @@ if (!defined('TYPO3_MODE')) {
 
 	// add static extension template
 t3lib_extMgm::addStaticFile($GLOBALS['_EXTKEY'], 'configuration/', 'Content Slide');
+t3lib_extMgm::addStaticFile($GLOBALS['_EXTKEY'], 'configuration/bodyTagCssClass/', 'Content Slide (Body Tag CSS Class)');
 
 	// add contentslide checkbox to the tt_content TCA form
 $tempColumns = array(
