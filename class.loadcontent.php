@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 domainfactory GmbH (Stefan Galinski <sgalinski@df.eu>)
+ *  (c) 2011-2012 domainfactory GmbH (Stefan Galinski <stefan.galinski@gmail.com)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -30,10 +30,10 @@ require_once(PATH_typo3 . 'contrib/RemoveXSS/RemoveXSS.php');
 
 /**
  * Loads and renders the bodytext from a given record id with all required
- * transformations. Note that the class doesn't requires a valid page and
- * assumes always zero.
+ * transformations. Note that the class does not require a valid page and
+ * always assumes zero as page id value.
  *
- * @author Stefan Galinski <sgalinski@df.eu>
+ * @author Stefan Galinski <stefan.galinski@gmail.com>
  * @package df_contentslide
  */
 class dfcontentslide_loadContent {

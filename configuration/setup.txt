@@ -37,7 +37,7 @@ lib.stdheader.10.setCurrent.outerWrap.cObject {
 	typolink < temp.dfcontentslide_typolink
 }
 
-# add default toogle header if the header is empty or hidden
+# add default toggle header if the header is empty or hidden
 tt_content.text.10 = COA
 tt_content.text.10 {
 	10 =< lib.stdheader

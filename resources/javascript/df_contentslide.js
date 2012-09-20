@@ -89,7 +89,7 @@ var SlidingElements = new Class({
 				this.elementMap[mapIndex].collapsible = null;
 			}
 
-			this.toggleAnchors(this.elementMap[mapIndex], false, false);
+			this.changeVisibilityOfAnchors(this.elementMap[mapIndex], false, false);
 			toggleElement.addEvent('click', this.toggleElement.bind(this, mapIndex));
 		}.bind(this));
 	},
@@ -129,68 +129,159 @@ var SlidingElements = new Class({
 	},
 
 	/**
-	 * Toggles the selected content element and fires
-	 * an event for collapsing or expanding
+	 * Loads the element content via AJAX
+	 *
+	 * @param {Element} element
+	 * @param {int} index
+	 * @param {Function} callback
+	 * @return {void}
+	 */
+	loadElementContent: function(element, index, callback) {
+		var spinner = new Element('div', {
+			'class': 'dfcontentslide-spinner',
+			text: ''
+		});
+		$(element.toggleItem.parentNode).grab(spinner);
+
+		(new Request.HTML({
+			method: 'get',
+			url: 'index.php?eID=dfcontentslide',
+			onComplete: function(responseTree, responseElements) {
+				spinner.dispose();
+				$(element.toggleItem.parentNode).grab(responseElements[0]);
+				this.elementMap[index].contentItem = responseElements[0];
+				this.elementMap[index].collapsible = this.createCollapsible(responseElements[0], element.toggleItem);
+				callback();
+			}.bind(this)
+		})).send('df_contentslide[id]=' + this.getIdFromLink(element.toggleItem));
+	},
+
+	/**
+	 * Toggles the selected content element
 	 *
 	 * @param {int} index
 	 * @param {boolean} animate
 	 * @return {void}
 	 */
 	toggleElement: function(index, animate) {
-		var map = this.elementMap[index];
-		if (!map || (map.contentItem && map.toggleItem.retrieve('SlidingElementLock', false))) {
+		var element = this.elementMap[index];
+		if (!element) {
 			return;
 		}
 
-		if (!map.contentItem) {
-			var spinner = new Element('div', {
-				'class': 'dfcontentslide-spinner',
-				text: ''
-			});
-			$(map.toggleItem.parentNode).grab(spinner);
-
-			(new Request.HTML({
-				method: 'get',
-				url: 'index.php?eID=dfcontentslide',
-				onComplete: function(responseTree, responseElements) {
-					spinner.dispose();
-					$(map.toggleItem.parentNode).grab(responseElements[0]);
-					this.elementMap[index].contentItem = responseElements[0];
-					this.elementMap[index].collapsible = this.createCollapsible(responseElements[0], map.toggleItem);
-					this.toggleElement(index, animate);
-				}.bind(this)
-			})).send('df_contentslide[id]=' + this.getIdFromLink(map.toggleItem));
-			return;
-
-		} else if (animate) {
-			map.toggleItem.store('SlidingElementLock', true);
-		}
-
-		this.toggleAnchors(map, map.collapsed, true);
-		if (map.collapsed && animate) {
-			map.collapsible.slideIn();
-		} else if (map.collapsed && !animate) {
-			map.collapsible.show();
-		} else if (animate) {
-			map.collapsible.slideOut();
+		if (element.collapsed) {
+			this.expand(index, animate);
 		} else {
-			map.collapsible.hide();
+			this.collapse(index, animate);
 		}
-
-		this.fireEvent((map.collapsed ? 'onExpand' : 'onCollapse'), [map, index, this]);
-		map.collapsed = !map.collapsed;
 	},
 
 	/**
-	 * Toggles the visibility of links inside the content elements to
-	 * prevent a nasty bug
+	 * Collapses all sliding elements on this page
+	 *
+	 * @param {boolean} animate
+	 * @return {void}
+	 */
+	collapseAll: function(animate) {
+		this.elementMap.each(function(element, index) {
+			this.collapse(index, animate);
+		}.bind(this));
+	},
+
+	/**
+	 * Expands all sliding elements on this page
+	 *
+	 * @param {boolean} animate
+	 * @return {void}
+	 */
+	expandAll: function(animate) {
+		this.elementMap.each(function(element, index) {
+			this.expand(index, animate);
+		}.bind(this));
+	},
+
+	/**
+	 * Collapses a sliding element and fires the onCollapse event afterwards
+	 *
+	 * @param {int} index
+	 * @param {boolean} animate
+	 * @return {void}
+	 */
+	collapse: function(index, animate) {
+		var element = this.elementMap[index];
+		if (!element || element.collapsed) {
+			return;
+		}
+
+		if (!element.contentItem) {
+			this.loadElementContent(element, index, this.collapse.bind(this, index, animate));
+			return;
+		}
+
+		if (element.toggleItem.retrieve('SlidingElementLock', false)) {
+			return;
+		} else if (animate) {
+			element.toggleItem.store('SlidingElementLock', true);
+		}
+
+		this.changeVisibilityOfAnchors(element, false, true);
+
+		if (animate) {
+			element.collapsible.slideOut();
+		} else {
+			element.collapsible.hide();
+		}
+
+		this.fireEvent('onCollapse', [element, index, this]);
+		element.collapsed = true;
+	},
+
+	/**
+	 * Expands a sliding element and fires the onExpand event afterwards
+	 *
+	 * @param {int} index
+	 * @param {boolean} animate
+	 * @return {void}
+	 */
+	expand: function(index, animate) {
+		var element = this.elementMap[index];
+		if (!element || !element.collapsed) {
+			return;
+		}
+
+		if (!element.contentItem) {
+			this.loadElementContent(element, index, this.expand.bind(this, index, animate));
+			return;
+		}
+
+		if (element.toggleItem.retrieve('SlidingElementLock', false)) {
+			return;
+		} else if (animate) {
+			element.toggleItem.store('SlidingElementLock', true);
+		}
+
+		this.changeVisibilityOfAnchors(element, true, true);
+
+		if (animate) {
+			element.collapsible.slideIn();
+		} else {
+			element.collapsible.show();
+		}
+
+		this.fireEvent('onExpand', [element, index, this]);
+		element.collapsed = false;
+	},
+
+	/**
+	 * Changes the visibility of links inside the content elements to
+	 * prevent nasty display issues
 	 *
 	 * @param {object} map
 	 * @param {boolean} setVisible
 	 * @param {boolean} delayOnHide
 	 * @return {void}
 	 */
-	toggleAnchors: function(map, setVisible, delayOnHide) {
+	changeVisibilityOfAnchors: function(map, setVisible, delayOnHide) {
 		if (setVisible) {
 			map.contentItem.getElements('a').setStyle('display', 'inline');
 		} else {
@@ -245,9 +336,9 @@ window.addEvent('domready', function() {
 		map.contentItem.toggleClass('dfcontentslide-contentActive');
 	};
 
-	(new SlidingElements($$('.dfcontentslide-toggle'), $$('.dfcontentslide-content'), {
+	SlidingElements.instance = new SlidingElements($$('.dfcontentslide-toggle'), $$('.dfcontentslide-content'), {
 		duration: 100,
 		onExpand: toggleClasses,
 		onCollapse: toggleClasses
-	}));
+	});
 });
