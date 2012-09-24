@@ -1,6 +1,6 @@
 page.bodyTagCObject = TEXT
 page.bodyTagCObject {
-	value = <body class="dfContentSlideIsActive">
+	value = <body class="dfcontentslide-pageHasSlidableRecords">
 
 	if {
 		isTrue.cObject = CONTENT
