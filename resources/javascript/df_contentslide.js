@@ -1,5 +1,5 @@
 if (!document.documentElement.className.match(/(^| )hasJs/)) {
-	document.documentElement.className = 'hasJS ' + document.documentElement.className;
+	document.documentElement.className = 'hasJs ' + document.documentElement.className;
 }
 
 var SlidingElements = new Class({
