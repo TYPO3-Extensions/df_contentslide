@@ -22,6 +22,14 @@ temp.dfcontentslide_typolink {
 
 #######################################################
 
+# add general wrapper class for sliding content elements
+tt_content.stdWrap.innerWrap.cObject.default.20.902347 = TEXT
+tt_content.stdWrap.innerWrap.cObject.default.20.902347 {
+	value = dfcontentslide-wrap
+	noTrimWrap = || |
+	fieldRequired = tx_df_contentslide_contentslide
+}
+
 # inject wrapping class for the toggle class of the contentslide
 lib.stdheader.stdWrap {
 	outerWrap.fieldRequired = tx_df_contentslide_contentslide
