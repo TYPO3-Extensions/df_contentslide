@@ -288,13 +288,13 @@ var SlidingElements = new Class({
 			map.contentItem.getElements('a').setStyle('display', 'inline');
 		} else {
 			var hide = function() {
-				this.contentItem.getElements('a').setStyle('display', 'none');
+				map.contentItem.getElements('a').setStyle('display', 'none');
 			};
 
 			if (delayOnHide) {
-				hide.delay(this.options.duration, map);
+				hide.delay(this.options.duration, this);
 			} else {
-				hide.bind(map);
+				hide();
 			}
 		}
 	},
