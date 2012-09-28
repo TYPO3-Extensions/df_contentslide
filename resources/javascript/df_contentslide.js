@@ -146,10 +146,12 @@ var SlidingElements = new Class({
 			url: 'index.php?eID=dfcontentslide',
 			onComplete: function(responseTree, responseElements) {
 				spinner.dispose();
-				$(element.toggleItem.parentNode).grab(responseElements[0]);
-				this.elementMap[index].contentItem = responseElements[0];
-				this.elementMap[index].collapsible = this.createCollapsible(responseElements[0], element.toggleItem);
-				callback();
+				if (responseElements.length) {
+					$(element.toggleItem.parentNode).grab(responseElements[0]);
+					this.elementMap[index].contentItem = responseElements[0];
+					this.elementMap[index].collapsible = this.createCollapsible(responseElements[0], element.toggleItem);
+					callback();
+				}
 			}.bind(this)
 		})).send('df_contentslide[id]=' + this.getIdFromLink(element.toggleItem));
 	},
@@ -288,7 +290,9 @@ var SlidingElements = new Class({
 			map.contentItem.getElements('a').setStyle('display', 'inline');
 		} else {
 			var hide = function() {
-				map.contentItem.getElements('a').setStyle('display', 'none');
+				if (map.contentItem) {
+					map.contentItem.getElements('a').setStyle('display', 'none');
+				}
 			};
 
 			if (delayOnHide) {
