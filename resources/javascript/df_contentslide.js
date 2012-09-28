@@ -230,6 +230,10 @@ var SlidingElements = new Class({
 			element.collapsible.hide();
 		}
 
+		element.toggleItem.getElements('a').each(function(link) {
+			link.blur();
+		});
+
 		this.fireEvent('onCollapse', [element, index, this]);
 		element.collapsed = true;
 	},
