@@ -22,6 +22,12 @@ temp.dfcontentslide_typolink {
 
 #######################################################
 
+# remove div-tag around empty content elements
+tt_content.stdWrap {
+	required = 1
+	required.fieldRequired = tx_df_contentslide_contentslide
+}
+
 # add general wrapper class for sliding content elements
 tt_content.stdWrap.innerWrap.cObject.default.20.902347 = TEXT
 tt_content.stdWrap.innerWrap.cObject.default.20.902347 {
@@ -53,6 +59,8 @@ tt_content.text.10 {
 	stdWrap.ifEmpty.cObject = TEXT
 	stdWrap.ifEmpty.cObject {
 		fieldRequired = tx_df_contentslide_contentslide
+		if.isTrue.field = bodytext // image
+
 		typolink < temp.dfcontentslide_typolink
 		value = {$plugin.tx_df_contentslide.emptyHeaderText}
 		wrap (
@@ -63,12 +71,6 @@ tt_content.text.10 {
 			</div>
 		)
 	}
-}
-
-# default header for textpic
-tt_content.textpic {
-	10.10 =< lib.stdheader
-	10.stdWrap < tt_content.text.10.stdWrap
 }
 
 # wrap of the content
@@ -88,6 +90,11 @@ tt_content.text.20 {
 	}
 }
 
-# wrap for image/text elements
-tt_content.textpic.20.stdWrap.outerWrap < tt_content.text.20.outerWrap
-tt_content.textpic.20.text.20.outerWrap =
+# and the same for the textpic element
+tt_content.textpic {
+	10.10 =< lib.stdheader
+	10.stdWrap < tt_content.text.10.stdWrap
+
+	20.stdWrap.outerWrap < tt_content.text.20.outerWrap
+	20.text.20.outerWrap =
+}
