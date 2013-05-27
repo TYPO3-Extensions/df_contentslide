@@ -4,11 +4,13 @@ if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
-	// add static extension template
+// add static extension template
 t3lib_extMgm::addStaticFile($GLOBALS['_EXTKEY'], 'configuration/', 'Content Slide');
-t3lib_extMgm::addStaticFile($GLOBALS['_EXTKEY'], 'configuration/bodyTagCssClass/', 'Content Slide (Body Tag CSS Class)');
+t3lib_extMgm::addStaticFile(
+	$GLOBALS['_EXTKEY'], 'configuration/bodyTagCssClass/', 'Content Slide (Body Tag CSS Class)'
+);
 
-	// add contentslide checkbox to the tt_content TCA form
+// add contentslide checkbox to the tt_content TCA form
 $tempColumns = array(
 	'tx_df_contentslide_contentslide' => array(
 		'exclude' => TRUE,

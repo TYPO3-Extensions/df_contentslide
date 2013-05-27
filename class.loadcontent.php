@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2012 domainfactory GmbH (Stefan Galinski <stefan.galinski@gmail.com)
+ *  (c) domainfactory GmbH (Stefan Galinski <stefan.galinski@gmail.com)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -32,9 +32,6 @@ require_once(PATH_typo3 . 'contrib/RemoveXSS/RemoveXSS.php');
  * Loads and renders the bodytext from a given record id with all required
  * transformations. Note that the class does not require a valid page and
  * always assumes zero as page id value.
- *
- * @author Stefan Galinski <stefan.galinski@gmail.com>
- * @package df_contentslide
  */
 class dfcontentslide_loadContent {
 	/**
@@ -107,8 +104,10 @@ class dfcontentslide_loadContent {
 	 * @return string
 	 */
 	protected function getTextByRecordId($id) {
+		/** @var $db t3lib_DB */
 		$enableFields = $GLOBALS['TSFE']->sys_page->enableFields('tt_content');
-		$row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+		$db = $GLOBALS['TYPO3_DB'];
+		$row = $db->exec_SELECTgetSingleRow(
 			'bodytext',
 			'tt_content',
 			'uid = ' . intval($id) . $enableFields
@@ -126,7 +125,7 @@ class dfcontentslide_loadContent {
 	protected function transformContentByRteConfiguration($content) {
 		//$RTEsetup = $GLOBALS['BE_USER']->getTSConfig('RTE', t3lib_BEfunc::getPagesTSconfig(0));
 		$RTEsetup = array();
-		$RTEtypeVal = t3lib_BEfunc::getTCAtypeValue('tt_content', 0);
+		$RTEtypeVal = t3lib_BEfunc::getTCAtypeValue('tt_content', array());
 		$thisConfig = t3lib_BEfunc::RTEsetup($RTEsetup['properties'], 'tt_content', 'bodytext', $RTEtypeVal);
 
 		$specConf['rte_transform']['parameters'] = array(
