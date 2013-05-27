@@ -47,4 +47,14 @@
 	.dfcontentslide-contentSub {
 		margin: 10px 0;
 	}
+
+	.dfcontentslide-toggle h1,
+	.dfcontentslide-toggle h2,
+	.dfcontentslide-toggle h3,
+	.dfcontentslide-toggle h4,
+	.dfcontentslide-toggle p {
+		padding: 0;
+		font-size: 1em;
+		background: none;
+	}
 }
