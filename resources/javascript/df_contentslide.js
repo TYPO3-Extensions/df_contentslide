@@ -269,11 +269,11 @@ var SlidingElements = new Class({
 
 		if (animate) {
 			element.collapsible.slideIn().chain(function() {
-				map.contentItem.getParent().setStyle('height', 'auto');
+				element.contentItem.getParent().setStyle('height', 'auto');
 			});
 		} else {
 			element.collapsible.show().chain(function() {
-				map.contentItem.getParent().setStyle('height', 'auto');
+				element.contentItem.getParent().setStyle('height', 'auto');
 			});
 		}
 
