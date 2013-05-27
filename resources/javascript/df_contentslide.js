@@ -96,6 +96,7 @@ var SlidingElements = new Class({
 	 * Returns an instance of Fx.Slide for the given element
 	 *
 	 * @param {Element} element
+	 * @param {Element} toggleItem
 	 * @return {Fx.Slide}
 	 */
 	createCollapsible: function(element, toggleItem) {
@@ -267,9 +268,13 @@ var SlidingElements = new Class({
 		this.changeVisibilityOfAnchors(element, true, true);
 
 		if (animate) {
-			element.collapsible.slideIn();
+			element.collapsible.slideIn().chain(function() {
+				map.contentItem.getParent().setStyle('height', 'auto');
+			});
 		} else {
-			element.collapsible.show();
+			element.collapsible.show().chain(function() {
+				map.contentItem.getParent().setStyle('height', 'auto');
+			});
 		}
 
 		this.fireEvent('onExpand', [element, index, this]);
