@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Dynamic Sliding of Content Elements with AJAX',
-	'description' => 'Collapsing and expanding of content elements (http://mootools.net/demos/?demo=Fx.Slide) with dynamic or static loading.',
+	'description' => 'Collapsing and expanding of content elements with dynamic or static loading. JQuery or MooTools can be used!',
 	'category' => 'fe',
 	'shy' => 0,
 	'version' => '3.1.0',
@@ -34,8 +34,8 @@ $EM_CONF[$_EXTKEY] = array(
 	'CGLcompliance_note' => '',
 	'constraints' => array(
 		'depends' => array(
-			'php' => '5.2.0-5.4.99',
-			'typo3' => '4.5.0-6.1.99',
+			'php' => '5.3.0-5.4.99',
+			'typo3' => '4.7.0-6.1.99',
 		),
 		'conflicts' => array(
 		),

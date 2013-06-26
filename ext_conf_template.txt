@@ -1,0 +1,2 @@
+# cat=basic; type=bool; label=Use JQuery:Set this setting ot "1" to use JQuerys instead of mootools
+useJQuery = 0

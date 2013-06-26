@@ -1,5 +1,11 @@
 page.includeCSS.dfcontentslide = {$plugin.tx_df_contentslide.css}
-page.includeJS.dfcontentslide = {$plugin.tx_df_contentslide.js}
+page.includeJS {
+	dfcontentslide = {$plugin.tx_df_contentslide.js}
+	dfcontentslide.if.isFalse.data = global:TYPO3_CONF_VARS|EXTCONF|df_contentslide|useJQuery
+
+	dfcontentslide_jquery = {$plugin.tx_df_contentslide.jqueryJs}
+	dfcontentslide_jquery.if.isTrue.data = global:TYPO3_CONF_VARS|EXTCONF|df_contentslide|useJQuery
+}
 
 #######################################################
 
