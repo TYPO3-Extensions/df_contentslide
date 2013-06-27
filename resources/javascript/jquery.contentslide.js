@@ -10,6 +10,35 @@ if (!document.documentElement.className.match(/(^| )hasJs/)) {
  * @param {object} options
  */
 window.SlidingElements = function(toggleElements, contentElements, options) {
+	/**
+	 * Available options:
+	 *
+	 * startItem {int} - no open item by default
+	 * duration {int} - defaults to 500
+	 *
+	 * @var {object}
+	 */
+	this.options = {
+		startItem: -1,
+		duration: 500
+	};
+
+	/**
+	 * Element Map
+	 *
+	 * Information about the toggle and content element
+	 *
+	 * @var {array}
+	 */
+	this.elementMap = [];
+
+	/**
+	 * Index of the "mapIndex" values of the elementMap for fast access
+	 *
+	 * @var {object}
+	 */
+	this.mapIndexMap = {};
+
 	$.extend(this.options, options || {});
 
 	this.mapElements(toggleElements, contentElements);
@@ -19,35 +48,6 @@ window.SlidingElements = function(toggleElements, contentElements, options) {
 };
 
 window.SlidingElements.prototype = {
-	/**
-	 * Available options:
-	 *
-	 * startItem {int} - no open item by default
-	 * duration {int} - defaults to 500
-	 *
-	 * @var {object}
-	 */
-	options: {
-		startItem: -1,
-		duration: 500
-	},
-
-	/**
-	 * Element Map
-	 *
-	 * Information about the toggle and content element
-	 *
-	 * @var {array}
-	 */
-	elementMap: [],
-
-	/**
-	 * Index of the "mapIndex" values of the elementMap for fast access
-	 *
-	 * @var {object}
-	 */
-	mapIndexMap: {},
-
 	/**
 	 * Returns the content id of the toggle element
 	 *
