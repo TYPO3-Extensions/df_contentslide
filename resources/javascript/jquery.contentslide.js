@@ -71,15 +71,22 @@ window.SlidingElements.prototype = {
 			mapIndex = (mapIndex ? mapIndex : index);
 			this.mapIndexMap[mapIndex] = index;
 
-			this.elementMap[index] = {};
-			this.elementMap[index].mapIndex = mapIndex;
-			this.elementMap[index].toggleItem = $(toggleElement);
-			this.elementMap[index].collapsed = true;
-			this.elementMap[index].contentItem = $(contentElements[index]);
+			toggleElement = $(toggleElement);
+			this.elementMap[index] = {
+				mapIndex: mapIndex,
+				toggleItem: toggleElement,
+				collapsed: !toggleElement.hasClass('dfcontentslide-active'),
+				contentItem: $(contentElements[index])
+			};
 			this.elementMap[index].contentItem.addClass('slidingElements-contentWrapper');
+			toggleElement.click(this.toggleElement.bind(this, mapIndex));
 
-			this.changeVisibilityOfAnchors(this.elementMap[index], false, false);
-			this.elementMap[index].toggleItem.click(this.toggleElement.bind(this, mapIndex));
+			// open the element if it's visible by default
+			if (!this.elementMap[index].collapsed) {
+				this.expand(mapIndex, false);
+			} else {
+				this.changeVisibilityOfAnchors(this.elementMap[index], false);
+			}
 		}.bind(this));
 	},
 
@@ -178,7 +185,7 @@ window.SlidingElements.prototype = {
 	 */
 	collapse: function(index, animate) {
 		var element = this.elementMap[this.mapIndexMap[index]];
-		if (!element || element.collapsed) {
+		if (!element) {
 			return;
 		}
 
@@ -193,7 +200,8 @@ window.SlidingElements.prototype = {
 			element.toggleItem.prop('SlidingElementLock', true);
 		}
 
-		this.changeVisibilityOfAnchors(element, false, true);
+		element.collapsed = true;
+		this.changeVisibilityOfAnchors(element, true);
 
 		if (animate) {
 			element.contentItem.slideUp(this.options.duration, function() {
@@ -207,10 +215,8 @@ window.SlidingElements.prototype = {
 			link.blur();
 		});
 
-		element.collapsed = true;
-
-		element.toggleItem.toggleClass('dfcontentslide-active');
-		element.contentItem.toggleClass('dfcontentslide-contentActive');
+		element.toggleItem.removeClass('dfcontentslide-active');
+		element.contentItem.removeClass('dfcontentslide-contentActive');
 	},
 
 	/**
@@ -222,7 +228,7 @@ window.SlidingElements.prototype = {
 	 */
 	expand: function(index, animate) {
 		var element = this.elementMap[this.mapIndexMap[index]];
-		if (!element || !element.collapsed) {
+		if (!element) {
 			return;
 		}
 
@@ -237,7 +243,8 @@ window.SlidingElements.prototype = {
 			element.toggleItem.prop('SlidingElementLock', true);
 		}
 
-		this.changeVisibilityOfAnchors(element, true, true);
+		element.collapsed = false;
+		this.changeVisibilityOfAnchors(element, true);
 
 		if (animate) {
 			element.contentItem.slideDown(this.options.duration, function() {
@@ -249,10 +256,8 @@ window.SlidingElements.prototype = {
 			element.contentItem.closest().css('height', 'auto');
 		}
 
-		element.collapsed = false;
-
-		element.toggleItem.toggleClass('dfcontentslide-active');
-		element.contentItem.toggleClass('dfcontentslide-contentActive');
+		element.toggleItem.addClass('dfcontentslide-active');
+		element.contentItem.addClass('dfcontentslide-contentActive');
 	},
 
 	/**
@@ -260,12 +265,11 @@ window.SlidingElements.prototype = {
 	 * prevent nasty display issues
 	 *
 	 * @param {object} map
-	 * @param {boolean} setVisible
 	 * @param {boolean} delayOnHide
 	 * @return {void}
 	 */
-	changeVisibilityOfAnchors: function(map, setVisible, delayOnHide) {
-		if (setVisible) {
+	changeVisibilityOfAnchors: function(map, delayOnHide) {
+		if (!map.collapsed) {
 			map.contentItem.find('a').css('display', 'inline');
 		} else {
 			var hide = function() {
@@ -310,7 +314,7 @@ window.SlidingElements.prototype = {
 		}
 
 		if (!isNaN(index)) {
-			this.toggleElement(index, true);
+			this.expand(index, true);
 		}
 	}
 };
